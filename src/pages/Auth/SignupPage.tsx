@@ -124,3 +124,5 @@ function SignupPage() {
 }
 
 export default SignupPage;
+
+// Commande pour installer les composants boostrap:npm install react-bootstrap bootstrap

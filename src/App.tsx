@@ -14,7 +14,7 @@ export const App: React.FC = () => {
   return (
      <div className="d-flex flex-column min-vh-100">
        {/* ✅ Barre de navigation globale */}
-       <Navbar />
+       <Navbar/>
 
        {/* ✅ Contenu principal */}
        <main className="flex-fill">

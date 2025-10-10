@@ -1,55 +1,77 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import { Link } from "react-router-dom";
-
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Alert from 'react-bootstrap/Alert';
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [erreur, setErreur] = useState('');
-
-  // Fonction de soumission du formulaire
+  const [succes,setSucces]=useState('');
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    // Validation simple
     if (email.trim() === "" || password.trim() === "") {
       setErreur("Les champs doivent être remplis");
-      return; // On arrête ici si la validation échoue
+      return;
     }
 
-    // Si tout est correct, on vide les champs et l'erreur
     setEmail("");
     setPassword("");
     setErreur("");
 
-    // Ici tu pourras ajouter la logique d'API pour login
+    setSucces('Connexion réussie')
+    // Add your API login logic here
   }
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          placeholder="Email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
-        <button type="submit">Se connecter</button>
-      </form>
+    <Container className="mt-5" style={{ maxWidth: '400px' }}>
+      <h2>Se connecter</h2>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="formEmail" className="mb-3">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Entrez votre email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+        </Form.Group>
 
-      <Link to="/forgot-password">Mot de passe oublié</Link>
+        <Form.Group controlId="formPassword" className="mb-3">
+          <Form.Label>Mot de passe</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Mot de passe"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+        </Form.Group>
+        {erreur &&
+        <Alert key={'danger'} variant={'danger'}>
+            {erreur}
+        </Alert>
+        }
+        {succes &&
+        <Alert key={'success'} variant={'success'}>
+            {succes}
+        </Alert>
+        }
 
-      {erreur && <p style={{ color: "red" }}>{erreur}</p>}
-    </>
+        <Button variant="primary" type="submit" className="w-100">
+          Se connecter
+        </Button>
+      </Form>
+
+      <div className="mt-3">
+        <Link to="/forgot-password">Mot de passe oublié</Link>
+      </div>
+
+      <p className="mt-2">
+        Pas de compte ? <Link to="/signup">Créer un compte</Link>
+      </p>
+    </Container>
   );
 }
 

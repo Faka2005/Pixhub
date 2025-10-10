@@ -1,6 +1,9 @@
 
 function Navbar(){
-    return <h1>Navbar</h1>
+    return 
+    (
+        <h1>bonjour</h1>
+    )
 }
 
 export default Navbar;

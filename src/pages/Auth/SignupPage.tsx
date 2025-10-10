@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Alert from 'react-bootstrap/Alert';
-function SignupPage() {
+function SignupPage({
   const [username,setUserName]=useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

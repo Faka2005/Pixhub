@@ -4,33 +4,64 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Alert from 'react-bootstrap/Alert';
-function SignupPage(){
-  const [username,setUserName]=useState('');
+
+function SignupPage() {
+  const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [erreur, setErreur] = useState('');
-  const [succes,setSucces]=useState('');
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const [succes, setSucces] = useState('');
+
+  async function MailLogin(mail: string) {
+    try {
+      const response = await fetch('https://tonapi.com/api/login-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: mail }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de la demande");
+      }
+
+      setErreur('');
+    } catch (error) {
+      setErreur("Erreur lors de l'envoi du mail. Veuillez réessayer.");
+      setSucces('');
+    }
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!email.trim() || !password.trim() || !confirmPassword.trim()) {
+    if (!email.trim() || !password.trim() || !confirmPassword.trim() || !username.trim()) {
       setErreur("Tous les champs doivent être remplis");
+      setSucces('');
       return;
     }
 
     if (password !== confirmPassword) {
       setErreur("Les mots de passe ne correspondent pas");
+      setSucces('');
       return;
     }
 
-    setErreur("");
-    setUserName("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
-    setSucces('Connexion réussie');
-    // Ajouter la logique d'API d'inscription ici
+    setErreur('');
+    setSucces('');
+
+    // Appeler ta fonction d'inscription API ici
+    // Par exemple : await signupUser({ username, email, password });
+
+    // Pour l'instant on simule un appel API
+    await MailLogin(email);
+
+    // Si succès, reset des champs
+    setUserName('');
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+    setSucces('Inscription réussie, veuillez vérifier votre mail pour confirmer.');
   }
 
   return (
@@ -41,11 +72,12 @@ function SignupPage(){
           <Form.Label>Nom</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Entrez votre "
+            placeholder="Entrez votre nom"
             value={username}
             onChange={e => setUserName(e.target.value)}
           />
         </Form.Group>
+
         <Form.Group controlId="formEmail" className="mb-3">
           <Form.Label>Email</Form.Label>
           <Form.Control
@@ -75,16 +107,9 @@ function SignupPage(){
             onChange={e => setConfirmPassword(e.target.value)}
           />
         </Form.Group>
-        {erreur&&
-        <Alert key={'danger'} variant={'danger'}>
-            {erreur}
-        </Alert>
-        }
-        {succes &&
-        <Alert key={'success'} variant={'success'}>
-            {succes}
-        </Alert>
-        }
+
+        {erreur && <Alert variant="danger">{erreur}</Alert>}
+        {succes && <Alert variant="success">{succes}</Alert>}
 
         <Button variant="primary" type="submit" className="w-100">
           S'inscrire

@@ -9,7 +9,8 @@ import DashboardPage from "./pages/Dashboard/DashboardPage";
 import GalleryPage from "./pages/Gallery/GalleryPage";
 import SettingsPage from "./pages/Settings/SettingsPage";
 import Footer from "./components/layout/Footer";
-
+import ResetPassword from "./pages/Auth/ResetPassword";
+import NotFoundPage from "./pages/NotFoundPage";
 export const App: React.FC = () => {
   return (
      <div className="d-flex flex-column min-vh-100">
@@ -24,14 +25,16 @@ export const App: React.FC = () => {
            <Route path="/login" element={<LoginPage />} />
            <Route path="/signup" element={<SignupPage />} />
            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
- {/*  */}
-           Pages protégées
+           <Route path="/reset-password" element={<ResetPassword/>}/>
+            
+          {/* Pages protégées */} 
            <Route path="/dashboard" element={<DashboardPage />} />
            <Route path="/gallery" element={<GalleryPage />} />
            <Route path="/settings" element={<SettingsPage />} />
- {/*  */}
-           Page 404
-           {/* <Route path="*" element={<NotFoundPage />} /> */}
+          
+          
+          {/* Page 404 */} 
+           <Route path="*" element={<NotFoundPage />} />
          </Routes>
        </main>
 

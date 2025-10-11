@@ -13,26 +13,26 @@ function SignupPage() {
   const [erreur, setErreur] = useState('');
   const [succes, setSucces] = useState('');
 
-  async function MailLogin(mail: string) {
-    try {
-      const response = await fetch('https://tonapi.com/api/login-request', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: mail }),
-      });
+  // async function MailLogin(mail: string) {
+  //   try {
+  //     const response = await fetch('https://tonapi.com/api/login-request', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ email: mail }),
+  //     });
 
-      if (!response.ok) {
-        throw new Error("Erreur lors de la demande");
-      }
+  //     if (!response.ok) {
+  //       throw new Error("Erreur lors de la demande");
+  //     }
 
-      setErreur('');
-    } catch (error) {
-      setErreur("Erreur lors de l'envoi du mail. Veuillez réessayer.");
-      setSucces('');
-    }
-  }
+  //     setErreur('');
+  //   } catch (e) {
+  //     setErreur("Erreur lors de l'envoi du mail. Veuillez réessayer.");
+  //     setSucces('');
+  //   }
+  // }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!email.trim() || !password.trim() || !confirmPassword.trim() || !username.trim()) {
@@ -54,7 +54,7 @@ function SignupPage() {
     // Par exemple : await signupUser({ username, email, password });
 
     // Pour l'instant on simule un appel API
-    await MailLogin(email);
+    // await MailLogin(email);
 
     // Si succès, reset des champs
     setUserName('');

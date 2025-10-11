@@ -5,7 +5,6 @@ import Container from 'react-bootstrap/Container';
 import Alert from 'react-bootstrap/Alert';
 
 function ForgotPasswordPage() {
-
   const [email, setEmail] = useState('');
 
   const [erreur, setErreur] = useState('');
@@ -27,6 +26,7 @@ async function EnvoieMailReset(mail: string) {
     setSucces("Un mail vous a été envoyé avec les instructions.");
     setErreur('');
   } catch (error) {
+    console.log(error);
     setErreur("Erreur lors de l'envoi du mail. Veuillez réessayer.");
     setSucces('');
   }

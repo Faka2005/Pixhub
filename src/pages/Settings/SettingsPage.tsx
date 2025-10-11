@@ -1,5 +1,6 @@
-function SettingPage(){
-    return <h1>Page à Faire</h1>
+import ProfilNavbar from "../../components/layout/ProfilNavbar"
+function ProfilPage(){
+    return <ProfilNavbar/>
 };
 
-export default SettingPage;
+export default ProfilPage;

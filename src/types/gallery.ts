@@ -8,3 +8,4 @@ export type Gallery = {
   media: MediaViewer[];    // Liste des médias contenus dans la galerie
   ownerId: number;         // Identifiant de l'utilisateur propriétaire
 };
+

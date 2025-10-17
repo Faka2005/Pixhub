@@ -73,10 +73,10 @@ export function useAuth() {
         setError("Email ou mot de passe invalide ❌");
         setStatus("loggedOut");
       }
-    } catch (err) {
+    } catch (_) {
       setError("Erreur lors de la connexion ⚠️");
       setStatus("loggedOut");
-
+      console.log(_);
     }
   };
 
@@ -115,6 +115,7 @@ export function useAuth() {
     } catch (_) {
       setError("Erreur lors de l’inscription ⚠️");
       setStatus("loggedOut");
+      console.log(_);
     }
   };
 

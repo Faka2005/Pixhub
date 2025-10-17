@@ -1,78 +1,71 @@
-import React, {  useState } from "react";
-import { Link } from "react-router-dom";
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Alert from 'react-bootstrap/Alert';
-function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [erreur, setErreur] = useState('');
-  const [succes,setSucces]=useState('');
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate, Link } from "react-router-dom";
+import { Form, Button, Container, Alert, Spinner } from "react-bootstrap";
+
+export default function LoginPage() {
+  const navigate = useNavigate();
+  const { login, status, error, user } = useAuth();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    if (email.trim() === "" || password.trim() === "") {
-      setErreur("Les champs doivent être remplis");
-      return;
-    }
-
-    setEmail("");
-    setPassword("");
-    setErreur("");
-
-    setSucces('Connexion réussie')
-    // Add your API login logic here
+    await login({ email, password });
   }
 
+  useEffect(() => {
+    if (status === "loggedIn" && user) {
+      navigate("/dashboard");
+    }
+  }, [status, user, navigate]);
+
   return (
-    <Container className="mt-5" style={{ maxWidth: '400px' }}>
-      <h2>Se connecter</h2>
+    <Container style={{ maxWidth: "400px", marginTop: "80px" }}>
+      <h2 className="text-center mb-4">Connexion à PixHub</h2>
+
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formEmail" className="mb-3">
+        <Form.Group controlId="email" className="mb-3">
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
             placeholder="Entrez votre email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </Form.Group>
 
-        <Form.Group controlId="formPassword" className="mb-3">
+        <Form.Group controlId="password" className="mb-4">
           <Form.Label>Mot de passe</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Mot de passe"
+            placeholder="Votre mot de passe"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </Form.Group>
-        {erreur &&
-        <Alert key={'danger'} variant={'danger'}>
-            {erreur}
-        </Alert>
-        }
-        {succes &&
-        <Alert key={'success'} variant={'success'}>
-            {succes}
-        </Alert>
-        }
 
-        <Button variant="primary" type="submit" className="w-100">
-          Se connecter
-        </Button>
+        {error && <Alert variant="danger">{error}</Alert>}
+
+        <div className="d-grid mb-2">
+          <Button type="submit" variant="primary" disabled={status === "checking"}>
+            {status === "checking" ? (
+              <>
+                <Spinner animation="border" size="sm" /> Connexion...
+              </>
+            ) : (
+              "Se connecter"
+            )}
+          </Button>
+        </div>
+
+        <div className="text-center">
+          <Link to="/signup">Créer un compte</Link>
+        </div>
       </Form>
-
-      <div className="mt-3">
-        <Link to="/forgot-password">Mot de passe oublié</Link>
-      </div>
-
-      <p className="mt-2">
-        Pas de compte ? <Link to="/signup">Créer un compte</Link>
-      </p>
     </Container>
   );
 }
-
-export default LoginPage;

@@ -3,7 +3,7 @@ import LoginPage from "./pages/Auth/LoginPage";
 import SignupPage from "./pages/Auth/SignupPage";
 import ForgotPasswordPage from './pages/Auth/ForgotPasswordPage'
 import { Routes, Route } from "react-router-dom";
-import FillExample from './components/layout/MainNavbar';
+import MainNavbar from './components/layout/MainNavbar';
 import LandingPage from "./pages/Landing/LandingPage";
 import DashboardPage from "./pages/Dashboard/DashboardPage";
 import GalleryPage from "./pages/Gallery/GalleryPage";
@@ -17,7 +17,7 @@ export const App: React.FC = () => {
   return (
      <div className="d-flex flex-column min-vh-100">
        {/* ✅ Barre de navigation globale */}
-       <FillExample/>
+       <MainNavbar/>
 
        {/* ✅ Contenu principal */}
        <main className="flex-fill">

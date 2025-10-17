@@ -1,36 +1,80 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Button from "react-bootstrap/Button";
 
 export default function MainNavbar() {
+  const { user, logout, status } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/"); // redirige vers l'accueil après déconnexion
+  };
+
+  // Fonction pour générer les liens principaux selon le type d'utilisateur
+  const renderLinksByType = () => {
+    if (!user) return null;
+
+    switch (user.type) {
+      case "admin":
+        return (
+          <>
+            <Nav.Link as={Link} to="/">Accueil</Nav.Link>
+            <Nav.Link as={Link} to="/admin/dashboard">Dashboard</Nav.Link>
+          </>
+        );
+      case "standard":
+        return (
+          <>
+            <Nav.Link as={Link} to="/">Accueil</Nav.Link>
+            <Nav.Link as={Link} to="/gallery">Galerie</Nav.Link>
+            <Nav.Link as={Link} to="/subscription">Abonnement</Nav.Link>
+            <Nav.Link as={Link} to="/account">Compte</Nav.Link>
+          </>
+        );
+      case "guest":
+      default:
+        return (
+          <>
+            <Nav.Link as={Link} to="/">Accueil</Nav.Link>
+            <Nav.Link as={Link} to="/gallery">Galerie</Nav.Link>
+          </>
+        );
+    }
+  };
+
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="mb-4">
       <Container>
-        {/* Logo */}
-        <Navbar.Brand href="/">PixHub</Navbar.Brand>
-
-        {/* Toggle pour mobile */}
+        <Navbar.Brand as={Link} to="/">PixHub</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-
-        {/* Liens et dropdown */}
         <Navbar.Collapse id="responsive-navbar-nav">
-          {/* Liens principaux à gauche */}
           <Nav className="me-auto">
-            <Nav.Link href="/">Accueil</Nav.Link>
-            <Nav.Link href="/gallery">Galerie</Nav.Link>
-            <Nav.Link href="/subscription">Abonnement</Nav.Link>
-            <Nav.Link href="/account">Compte</Nav.Link>
+            {status === "loggedIn" && user ? renderLinksByType() : (
+              <>
+                <Nav.Link as={Link} to="/">Accueil</Nav.Link>
+                <Nav.Link as={Link} to="/gallery">Galerie</Nav.Link>
+              </>
+            )}
           </Nav>
 
-          {/* Dropdown utilisateur à droite */}
-          <Nav>
-            <NavDropdown title="Utilisateur" id="user-dropdown" align="end">
-              <NavDropdown.Item href="/profile">Profil</NavDropdown.Item>
-              <NavDropdown.Item href="/settings">Paramètres</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="/logout">Déconnexion</NavDropdown.Item>
-            </NavDropdown>
+          <Nav className="ms-auto align-items-center">
+            {status === "loggedIn" && user ? (
+              <NavDropdown title={user.name} id="user-dropdown" align="end">
+                <NavDropdown.Item as={Link} to="/profile">Profil</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/settings">Paramètres</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={handleLogout}>Déconnexion</NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <Button variant="outline-light" onClick={() => navigate("/login")}>
+                Connexion
+              </Button>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

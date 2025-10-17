@@ -8,6 +8,7 @@ export type User = {
   createdAt: string;       // Date de création du compte
   avatar?: string;         // URL de l'avatar (optionnel)
   subscription?: string;   // Type d'abonnement (free, premium, etc.)
+  type:string;             // Status (Utilsateur standart ou admin)
 };
 
 

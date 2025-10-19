@@ -21,9 +21,9 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   <label className="border p-4 block text-center rounded cursor-pointer bg-gray-100 hover:bg-gray-200">
     Cliquer ou glisser un fichier pour uploader
     <input
-      type="file"                     // ✅ toujours "file"
-      multiple                         // ✅ permet plusieurs fichiers
-      accept="image/png, image/jpeg, image/jpg, video/mp4" // ✅ types autorisés
+      type="file"                     
+      multiple                         //  permet plusieurs fichiers
+      accept="image/png, image/jpeg, image/jpg, video/mp4" // types autorisés
       onChange={handleFileChange}
       className="hidden"
     />

@@ -5,7 +5,7 @@ import { Form, Button, Container, Alert, Spinner } from "react-bootstrap";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { login, status, error, user } = useAuth();
+  const { login, status, error, user } = useAuth();//Récupérer le status de l'user
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

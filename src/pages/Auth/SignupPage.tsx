@@ -7,12 +7,12 @@ export default function SignupPage() {
   const navigate = useNavigate();
   const { signup, status, error, user } = useAuth();
 
-  const [username, setUserName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [localError, setLocalError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [localError, setLocalError] = useState("");
+  const [success, setSuccess] = useState("");
 
   useEffect(() => {
     if (status === "loggedIn" && user) {
@@ -23,34 +23,31 @@ export default function SignupPage() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!username.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()) {
+    if (!username || !email || !password || !confirmPassword) {
       setLocalError("Tous les champs doivent être remplis");
-      setSuccess('');
       return;
     }
 
     if (password !== confirmPassword) {
       setLocalError("Les mots de passe ne correspondent pas");
-      setSuccess('');
       return;
     }
 
-    setLocalError('');
-    setSuccess('');
+    setLocalError("");
+    setSuccess("");
 
-    const response = await signup({ name: username, email, password });
+    const response = await signup({ username, email, password });
 
-    if (response?.success) {
+    if (response) {
       setSuccess("Inscription réussie 🎉");
-      // Redirection automatique via useEffect
     } else {
-      setLocalError(response?.message || "Erreur lors de l'inscription ⚠️");
+      setLocalError("Erreur lors de l'inscription ⚠️");
     }
   }
 
   return (
-    <Container className="mt-5" style={{ maxWidth: "400px" }}>
-      <h2 className="mb-4 text-center">Créer un compte</h2>
+    <Container style={{ maxWidth: "400px", marginTop: "80px" }}>
+      <h2 className="text-center mb-4">Créer un compte</h2>
 
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formUsername" className="mb-3">
@@ -59,7 +56,7 @@ export default function SignupPage() {
             type="text"
             placeholder="Entrez votre nom"
             value={username}
-            onChange={e => setUserName(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
         </Form.Group>
@@ -70,7 +67,7 @@ export default function SignupPage() {
             type="email"
             placeholder="Entrez votre email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </Form.Group>
@@ -81,7 +78,7 @@ export default function SignupPage() {
             type="password"
             placeholder="Mot de passe"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </Form.Group>
@@ -90,9 +87,9 @@ export default function SignupPage() {
           <Form.Label>Confirmer le mot de passe</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Confirmez votre mot de passe"
+            placeholder="Confirmez le mot de passe"
             value={confirmPassword}
-            onChange={e => setConfirmPassword(e.target.value)}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </Form.Group>

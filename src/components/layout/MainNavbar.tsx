@@ -12,38 +12,27 @@ export default function MainNavbar() {
 
   const handleLogout = () => {
     logout();
-    navigate("/"); // redirige vers l'accueil après déconnexion
+    navigate("/");
   };
 
-  // Fonction pour générer les liens principaux selon le type d'utilisateur
-  const renderLinksByType = () => {
-    if (!user) return null;
-
-    switch (user.type) {
-      case "admin":
+  const renderLinks = () => {
+    if (status === "loggedIn" && user) {
         return (
-          <>
-            <Nav.Link as={Link} to="/">Accueil</Nav.Link>
-            <Nav.Link as={Link} to="/admin/dashboard">Dashboard</Nav.Link>
-          </>
-        );
-      case "standard":
-        return (
-          <>
+            <>
             <Nav.Link as={Link} to="/">Accueil</Nav.Link>
             <Nav.Link as={Link} to="/gallery">Galerie</Nav.Link>
             <Nav.Link as={Link} to="/subscription">Abonnement</Nav.Link>
             <Nav.Link as={Link} to="/account">Compte</Nav.Link>
           </>
         );
-      case "guest":
-      default:
-        return (
-          <>
-            <Nav.Link as={Link} to="/">Accueil</Nav.Link>
-            <Nav.Link as={Link} to="/gallery">Galerie</Nav.Link>
-          </>
-        );
+      }
+     else {
+      return (
+        <>
+          <Nav.Link as={Link} to="/">Accueil</Nav.Link>
+          <Nav.Link as={Link} to="/gallery">Galerie</Nav.Link>
+        </>
+      );
     }
   };
 
@@ -53,18 +42,10 @@ export default function MainNavbar() {
         <Navbar.Brand as={Link} to="/">PixHub</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            {status === "loggedIn" && user ? renderLinksByType() : (
-              <>
-                <Nav.Link as={Link} to="/">Accueil</Nav.Link>
-                <Nav.Link as={Link} to="/gallery">Galerie</Nav.Link>
-              </>
-            )}
-          </Nav>
-
+          <Nav className="me-auto">{renderLinks()}</Nav>
           <Nav className="ms-auto align-items-center">
             {status === "loggedIn" && user ? (
-              <NavDropdown title={user.name} id="user-dropdown" align="end">
+              <NavDropdown title={user.username} id="user-dropdown" align="end">
                 <NavDropdown.Item as={Link} to="/profile">Profil</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/settings">Paramètres</NavDropdown.Item>
                 <NavDropdown.Divider />

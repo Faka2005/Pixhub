@@ -4,9 +4,9 @@
 
 // ✅ Données nécessaires pour se connecter ou s'inscrire
 export type Credentials = {
+  username?: string; // utilisé seulement pour l'inscription
   email: string;
   password: string;
-  name?: string; // utilisé seulement pour l'inscription
 };
 
 // ✅ Réponse renvoyée par l'API d'authentification (login/signup)

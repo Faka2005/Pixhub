@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import type { Gallery, MediaViewer } from "../../types/gallery";
 import { useGallery } from "../../hooks/useGallery";
-
+import type { MediaViewer } from "../../types/media";
 const GalleryPage = () => {
   // 🔹 Récupérer l'utilisateur connecté
   const user = JSON.parse(localStorage.getItem("pixhub_user") || "{}");
